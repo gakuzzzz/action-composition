@@ -64,8 +64,23 @@ object Message extends Controller with Auth with Pjax {
     }
 
   def main = compositeAction(Read) { user => implicit template => implicit request =>
-    val title = "hoge"
+    val title = "message main"
     Ok(html.message.main(title))
+  }
+
+  def list = compositeAction(Read) { user => implicit template => implicit request =>
+    val title = "all messages"
+    Ok(html.message.list(title))
+  }
+
+  def detail(id: Int) = compositeAction(Read) { user => implicit template => implicit request =>
+    val title = "messages detail"
+    Ok(html.message.detail(title))
+  }
+
+  def write = compositeAction(Write) { user => implicit template => implicit request =>
+    val title = "write message"
+    Ok(html.message.write(title))
   }
 
 }

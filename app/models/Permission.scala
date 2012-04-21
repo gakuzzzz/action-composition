@@ -6,14 +6,16 @@ case object Read extends ActionType
 case object Write extends ActionType
 
 sealed trait Permission {
-  def executable(actionType: ActionType): Boolean = (this, actionType) match {
-    case (ReadOnly, Read) => true
-    case (WriteOnly, Write) => true
-    case (ReadWrite, _) => true
-    case _ => false
-  }
+  def executable(actionType: ActionType): Boolean
 }
 
-case object ReadOnly extends Permission
-case object WriteOnly extends Permission
-case object ReadWrite extends Permission
+case object ReadOnly extends Permission {
+  def executable(actionType: ActionType): Boolean = actionType == Read
+}
+case object WriteOnly extends Permission {
+  def executable(actionType: ActionType): Boolean = actionType == Write
+}
+case object ReadWrite extends Permission {
+  def executable(actionType: ActionType): Boolean =
+    actionType == Read || actionType == Write
+}
